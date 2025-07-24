@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⍣AM VIP⍣⃟ App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  
+  :root {
+  /* Light Theme */
+  --bg-color: #ffffff; /* Fallback solid color */
+  --bg-image: url(bg.jpg); /* Actual background image */
+  --text-color: #333333; /* Text should NEVER be an image */
+  --card-bg: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  --primary: #4a6fa5;
+  --secondary: #ff7e5f;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --primary-color: #6c5ce7; /* Consider merging with --primary */
+    
+  }
+[data-theme="dark"] {
+  --bg-image: url(dark.jpg); /* Subtle dark pattern */
+  --bg-color: #121212; /* Fallback */
+  --card-bg: rgba(30, 30, 30, 0.8); /* Semi-transparent dark */
+}
+ 
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+  
+  body {
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
+  background-size: cover; /* Ensures image covers the whole screen */
+  background-attachment: fixed; /* Optional: Makes it non-scrolling */
+  color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      transition: all 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      z-index: 100;
+    }
+
+    .card {
+   border: 3px solid var(--primary-color);
+box-shadow: 0 5px 15px var(--shadow-color);   
+      background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  background-image: var(--bg-image);
+  color: var(--text-color);
+    border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+      margin-top:0px;
+      max-width: 500px;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .user-info {
+      margin: 4.5rem 0;
+      text-align: left;
+    }
+
+    .user-info p {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background-color: rgba(74, 111, 165, 0.1);
+      border-radius: 6px;
+    }
+
+.buttons {
+      display: flex;
+      width: 100px;
+      height: 100px;
+      align-items: center;
+      justify-content: space-around;
+    }
+    .buttons .row {
+      display: block;
+      margin-left: 40px;
+    }
+    .buttons .row a {
+      position: relative;
+      display: block;
+      height: 55px;
+      width: 100px;
+      margin: 5px 0;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 500;
+      text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      border: none;
+      outline: none;
+      border-radius: 0 5px 5px 0;
+      transition: all 0.1s ease-out;
+      text-align: center;
+      padding-left: 20px;
+      text-decoration: none;
+      line-height: 55px;
+    }
+    .row a:active {
+      top: 3px;
+    }
+    .row a.facebook,
+    .row a.facebook span {
+      background: #3b5999;
+      background: linear-gradient(45deg, #3b5999, #833AB4, #3b5999, #E1306C, #3b5999);  
+      border-left: 10px solid #3b5999;
+      box-shadow: 0px 5px 0px 0px #c91d56;
+    }
+    .row a.facebook:active {
+      box-shadow: 0px 2px 0px 0px #2e4476;
+    }
+
+    .row a.instagram,
+    .row a.instagram span {
+      background: #3b5999;
+      background: linear-gradient(45deg, #3b5999, #833AB4, #3b5999, #E1306C, #3b5999);
+      border-left: 1px solid #3b5999;
+      box-shadow: 0px 5px 0px 0px #c91d56;
+    }
+    .row a.instagram:active {
+      box-shadow: 0px 2px 0px 0px #c91d56;
+    }
+
+    .row a span {
+      position: absolute;
+      height: 55px;
+      width: 60px;
+      top: 0;
+      left: -40px;
+      line-height: 55px;
+      font-size: 25px;
+      display: block;
+      font-weight: normal;
+      border-radius: 5px 0 0 5px;
+      text-align: center;
+    }
+    .row a:active span {
+      top: -3px;
+    }
+    .row a.facebook span {
+      border-right: 1px solid #2e4476;
+    }
+    
+    .row a.instagram span {
+      border-right: 1px solid #c91d56;
+    }
+
+  
+    .row a.facebook:active span {
+      box-shadow: 0px 5px 0px 0px #2e4476, 6px 4px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .row a.instagram:active span {
+      box-shadow: 0px 5px 0px 0px #c91d56, 6px 4px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .logout-btn {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="card">
+    <h1>Welcome to My App</h1>
+    𓄂⍣⃝🦋 AM VIP⍣⃟𝄟
+    <div class="user-info">
+      <p><strong>User ID:</strong> <span id="userId">Guest</span></p>
+      <p><strong>Device ID:</strong> <span id="deviceId">Unknown</span></p>
+     
+    </div>
+  
+ 
+    
+<div class="buttons">
+    <div class="row">
+      <a href="Game-wingo/tashan vip new .html" target="_blank" class="facebook">
+        <span><i class="fas fa-gem"></i></span>
+        HACK
+      </a>
+    </div>
+  
+    <div class="row">
+      <a href="Game-wingo/tashan vip.html" target="_blank" class="instagram">
+        <span><i class="fas fa-crown"></i></span>
+        Predtoin
+      </a>
+
+  </div>
+</div>
+  </div>
+   </div>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </div>
+         
+
+  <script>
+    // DOM Elements
+    const themeToggle = document.getElementById('themeToggle');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userIdElement = document.getElementById('userId');
+    const deviceIdElement = document.getElementById('deviceId');
+
+    // Theme Toggle
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Update icon
+      const icon = themeToggle.querySelector('i');
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+    // User Data (simulated - replace with your actual data)
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId') || sessionStorage.getItem('userId') || 'Guest';
+    const deviceId = urlParams.get('deviceId') || sessionStorage.getItem('deviceId') || 'Unknown';
+    
+    userIdElement.textContent = userId;
+    deviceIdElement.textContent = deviceId;
+    
+    // Store in session for demo purposes
+    sessionStorage.setItem('userId', userId);
+    sessionStorage.setItem('deviceId', deviceId);
+
+    // Logout Functionality
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.clear();
+      window.location.href = 'index.html'; // Change to your login page
+    });
+  </script>
+</body>
+</html>
