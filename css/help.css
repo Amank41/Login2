@@ -1,0 +1,71 @@
+/* Help Page Specific Styles */
+.help .container {
+  max-width: 800px;
+}
+
+.faq-container {
+  margin-top: 2rem;
+}
+
+.faq-item {
+  background: var(--card-bg);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.faq-header {
+  padding: 1.2rem;
+  background: var(--primary-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-content {
+  padding: 0 1.2rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-content {
+  padding: 1.2rem;
+  max-height: 500px;
+}
+
+.contact-form {
+  margin-top: 3rem;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+/* Dark mode overrides */
+body.dark .faq-item {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+body.dark .faq-header {
+  background: var(--primary-dark);
+}
+

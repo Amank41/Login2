@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TASHAN WIN</title>
+  <link rel="stylesheet" href="style 25.css" />
+</head>
+<body>
+     <div class="container">
+       
+          <div class="AM2">
+    <img src="Logo.png" alt="Tashan Win Logo">        
+     <h2>𓄂⍣⃝🦋 AM VIP⍣⃟❤️‍🩹𝄟</h2>
+            
+            <div class="timer" id="timer">00:30</div>
+      
+          <button class="timer" id="generatePeriod"></button>
+         
+            
+        <h1>WINGO SERVER HACKED</h1>
+        
+         <div class="game-options">
+            <button class="game-option active" data-time="30">
+                <img src="time.png" alt="30Sec">
+                Win Go 30Sec
+            </button>
+            <button class="game-option" data-time="60">
+                <img src="time.png" alt="1Min">
+                Win Go 1Min
+            </button>
+            <button class="game-option" data-time="180">
+                <img src="time.png" alt="3Min">
+                Win Go 3Min
+            </button>
+            <button class="game-option" data-time="300">
+                <img src="time.png" alt="5Min">
+                Win Go 5Min
+            </button>
+        </div>
+        
+          
+        <div class="input-section">
+          
+            <h4 for="period">ENTER PERIOD NUMBER:</h4>
+            <div class="period-input-group">
+                <input type="text" id="period" value="20250715100010849">
+   </div>
+            <div class="copied-notice" id="copiedNotice"></div>
+        </div>
+        
+        <button class="btn" id="getNumber">Get Number</button>
+        
+            
+        
+        <div class="result" id="result">
+            <div>PERIOD: <span id="periodDisplay">Result</span></div>
+            <div>NUMBER: <span id="numberDisplay">-</span></div>
+            <div>COLOUR: <span id="colorDisplay">-</span></div>
+        </div>
+        
+        <button class="logout">Logout</button>
+    </div>
+
+  <script>  
+   let currentTime = 30; // Default to 30 seconds
+        let timerInterval;
+        let isRunning = false;
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Generate current period number (YYYYMMDDHHmmssSSS)
+        function generatePeriodNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+            
+            return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+        }
+
+        // Start the countdown timer
+        function startTimer() {
+            clearInterval(timerInterval);
+            isRunning = true;
+            let timeLeft = currentTime;
+            
+            document.getElementById('timer').textContent = formatTime(timeLeft);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = formatTime(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    // Auto-generate result when timer reaches 0
+                    generateResult();
+                    // Restart timer
+                    setTimeout(startTimer, 2000);
+                }
+            }, 1000);
+        }
+
+        // Generate random result
+        function generateResult() {
+            const period = document.getElementById('period').value;
+            const randomNumber = Math.floor(Math.random() * 10);
+            const colors = ['Red', 'Green', 'Green','Red', 'Red','Violet+Red', 'Green','Violet+Red']; // Adding green for variety
+            const color = colors[randomNumber % colors.length];
+            
+            document.getElementById('periodDisplay').textContent = period;
+            document.getElementById('numberDisplay').textContent = randomNumber;
+            
+            const colorDisplay = document.getElementById('colorDisplay');
+            colorDisplay.textContent = color;
+            colorDisplay.className = color.toLowerCase();
+        }
+
+        // Game option buttons
+        document.querySelectorAll('.game-option').forEach(button => {
+            button.addEventListener('click', function() {
+                // Set active button
+                document.querySelectorAll('.game-option').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Update current time
+                currentTime = parseInt(this.dataset.time);
+                
+                // Reset timer with new time
+                if (isRunning) {
+                    startTimer();
+                } else {
+                    document.getElementById('timer').textContent = formatTime(currentTime);
+                }
+            });
+        });
+
+        // Generate Period button
+        document.getElementById('generatePeriod').addEventListener('click', function() {
+            const periodNumber = generatePeriodNumber();
+            document.getElementById('period').value = periodNumber;
+            
+            // Show copied notice
+            const notice = document.getElementById('copiedNotice');
+            notice.textContent = "Period number generated!";
+            notice.style.color = "#5cb85c";
+            
+            setTimeout(() => {
+                notice.textContent = "";
+            }, 2000);
+        });
+
+        // Get Number button
+        document.getElementById('getNumber').addEventListener('click', function() {
+            generateResult();
+        });
+
+        // Logout
+        document.querySelector('.logout').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                clearInterval(timerInterval);
+                alert('Logged out successfully');
+                 window.location.href = 'login.html';
+
+                // In a real app, redirect to login page
+            }
+        });
+
+        // Initialize
+        startTimer();
+    </script>
+</body>
+</html>

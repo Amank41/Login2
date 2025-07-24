@@ -1,0 +1,99 @@
+/* Profile Page Specific Styles */
+.profile .container {
+  max-width: 600px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-card {
+  background: var(--card-bg);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  color: white;
+}
+
+.profile-info {
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.info-label {
+  font-weight: bold;
+  min-width: 120px;
+  color: var(--primary-color);
+}
+
+.info-value {
+  flex: 1;
+}
+
+.edit-btn {
+  background-color: var(--primary-color);
+  margin-top: 2rem;
+}
+
+.edit-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* Dark mode overrides */
+body.dark .profile-card,
+body.dark .stat-card {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+body.dark .info-row {
+  border-bottom-color: #444;
+}
+
