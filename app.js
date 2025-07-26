@@ -175,10 +175,10 @@ class AuthSystem {
         });
         this.loginSuccess('BiometricUser', await this.getDeviceId());
       } else {
-        throw new Error("Biometric not supported.");
+        throw new Error("not supported.");
       }
     } catch (e) {
-      this.showMessage('✗ Biometric login failed', 'error');
+      this.showMessage('✗ login failed', 'error');
     }
   }
 
