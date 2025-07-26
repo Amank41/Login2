@@ -467,7 +467,7 @@ text-decoration: underline;
 @media (max-width: 450px) {
   .box2 {
     width: 95%;
-    height: 600px;
+    height: 500px;
     padding: 25px 15px;
     border-radius: 12px;
   }
