@@ -5,7 +5,7 @@
 
 class AuthSystem {
   constructor() {
-    this.validUsers = ['VIP299', 'A8652', '7DHSK'];
+    this.validUsers = ['VIP1122', 'A8Jsc', '7867K'];
     this.initElements();
     this.initEventListeners();
     this.checkSavedTheme();
