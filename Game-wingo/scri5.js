@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
             const tableBody = document.querySelector('#dataTable tbody');
-            const predictedNumberElement = document.getElementById('predictedNumber');
-            const predictedPremiumElement = document.getElementById('predictedPremium');
-            const timerElement = document.getElementById('timeRemaining');
+            const predictedNumberElement = document.getElementById('pred');
+            const predictedPremiumElement = document.getElementById('p');
+            const timerElement = document.getElementById('tim');
             const historyTableBody = document.querySelector('#predictionHistoryTable tbody');
             const prevPageButton = document.getElementById('prevPage');
             const nextPageButton = document.getElementById('nextPage');
