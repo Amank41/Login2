@@ -129,6 +129,15 @@ body{
     .card.active img {
       filter: brightness(1);
     }
+
+
+
+/* Start Button */
+.start-section {
+    text-align: center;
+    margin: 15px 0;
+}
+
 .input-section {
             margin-bottom: 20px;
         }
@@ -137,13 +146,28 @@ body{
             margin-bottom: 5px;
             font-weight: bold;
         }
-        .input-section input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-    
+
+    .input-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-section input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
     }
  .start-section {
             text-align: center;
