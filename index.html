@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+
+     <!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,72 +8,84 @@
     <!-- Custom CSS Link -->
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="description" content="Secure VIP access portal">
 </head>
 <body>
-    <button id="themeToggleBtn" aria-label="Toggle dark/light mode">🌓</button>  
+    <!-- Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
 
+    <!-- Main Login Container -->
     <div class="box2">
         <div class="border-line"></div>
         <form id="loginForm">
-            
+  
             <div class="profile-container">  
-                <img src="https://i.ibb.co/pBrpC9dd/AM-VIP41.jpg" alt="Profile Picture" class="profile-img">  
+                <img src="https://i.ibb.co/pBrpC9dd/AM-VIP41.jpg" alt="AM VIP Logo" class="profile-img">  
             </div>  
             <h2>𓄂⍣AM VIP⍣</h2>
             
-    <!--  Username Login -->
-    <form id="loginForm">
-      <div class="input-box">
-        <input type="password" id="username"required/>
-        <span>User Id</span>
-        <i></i>
-      </div>
-            <div class="imp-links">
-                <a href="premium.html">Get key🔐</a>   
-                <a href="gift code.html">Gift code🎁</a>
-            </div>            
-     <button type="submit" class="btn">lgoin</button>
-            
-    
-            <!-- Secondary Actions -->
-          <div class="action-buttons">  
-           <h3 type="button" id="deviceIdBtn">Device ID</h3>       
-   
-<div class="fingerprint">  
-     <!-- Fingerprint -->
-      <div class="fingerprintBox" id="fingerprintBtn"> 
-    <img src="fingerprint2.png" alt="Fingerprint Icon" />                 
-      </div> 
-     </div>
-          <!-- Status Messages -->
-                <div id="result" class="status-message" aria-live="polite"></div>
-     
-            </div>     
-        </form>     
-        
-        <!-- Chat To2 B2 -->
-        <button class="chat-to2" aria-label="Open chat">
-            <i class="fas fa-comment-dots"></i>
-        </button>
-        
-  <!-- 💬 Floating Chat Button -->
-  <div class="chat-to2" id="chatToggle" title="Chat with us">💬</div>
-
-  <!-- 🗨️ Chat Widget -->
-  <div id="chatWidget" class="chat-box hidden">
-    <div class="chat-header">
-      <strong>AM Support</strong>
-      <span id="closeChat" title="Close">✖</span>
-    </div>
-    <div class="chat-body" id="chatMessages"></div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type a message..." />
-      <button id="sendMsg">➤</button>
+            <!-- User Key Input -->
+            <div class="input-box">
+                <input type="password" id="user-key" required aria-label="Access Key"/>
+                <span>Access Key</span>
+                <i></i>
             </div>
+            
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+             
+            <!-- Action Links -->
+            <div class="imp-links">
+                <a href="#" id="forgotPassword">Forgot Password</a>   
+                <a href="#" id="giftCode">Gift Code</a>
+            </div>            
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn" aria-label="Submit access key">Login</button>
+            
+            <!-- Device ID Button -->
+            <div class="action-buttons">  
+                <button type="button" id="deviceIdBtn" class="text-btn">Device ID</button>
+            </div>
+                                                <!-- Status Message -->
+            <div id="result" class="status-message" aria-live="polite"></div>
+       
+        </form>     
+    </div>
+    
+    <!-- Device ID Modal -->
+    <div id="deviceIdModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Your Device ID</h3>
+            <p id="deviceIdDisplay" class="device-id"></p>
+            <button id="copyDeviceId" class="btn secondary">Copy to Clipboard</button>
         </div>
     </div>
     
+    <!-- Floating Chat Button -->
+    <button id="chatToggle" class="chat-to2" aria-label="Open chat">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <!-- Chat Widget -->
+    <div id="chatWidget" class="chat-box hidden">
+        <div class="chat-header">
+            <strong>AM Support</strong>
+            <button id="closeChat" aria-label="Close chat">✖</button>
+        </div>
+        <div class="chat-body" id="chatMessages">
+            <div class="msg support">Welcome to AM VIP support. How can we help you?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type a message..." aria-label="Type your message"/>
+            <button id="sendMsg" aria-label="Send message">➤</button>
+        </div>
+    </div>
+    
+    <!-- JavaScript --> 
   <script src="pay/app.js"></script> 
    <script src="app.js"></script> 
 <script src="Game/app.js"></script> 
@@ -80,3 +93,4 @@
 
 </body>
 </html>
+
