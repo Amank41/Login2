@@ -1,388 +1,308 @@
-/**
- * AM VIP Authentication System
- * Enhanced with security features and better UX
- */
+        // Theme Toggle
 
-// DOM Elements with null checks
-const getElement = (id) => document.getElementById(id) || console.error(`Element ${id} not found`);
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
 
-const elements = {
-  themeToggleBtn: getElement('themeToggleBtn'),
-  deviceIdBtn: getElement('deviceIdBtn'),
-  deviceIdModal: getElement('deviceIdModal'),
-  deviceIdDisplay: getElement('deviceIdDisplay'),
-  copyDeviceIdBtn: getElement('copyDeviceId'),
-  closeModal: document.querySelector('.close-modal'),
-  chatToggle: getElement('chatToggle'),
-  chatWidget: getElement('chatWidget'),
-  closeChat: getElement('closeChat'),
-  chatInput: getElement('chatInput'),
-  chatMessages: getElement('chatMessages'),
-  sendMsg: getElement('sendMsg'),
-  loading: getElement('loading'),
-  result: getElement('result'),
-  loginForm: getElement('loginForm'),
-  userKeyInput: getElement('user-key'),
-  forgotPassword: getElement('forgotPassword'),
-  giftCode: getElement('giftCode')
-};
+        themeToggleBtn.addEventListener('click', () => {
 
-// Configuration with encrypted keys (basic example)
-const config = {
-  deviceIdRange: 20,
-  keyMapping: {
-    20: "Aman", 1: "T93r2", 2: "A3f9k0", 3: "U7y7a0", 4: "QU8i9", 
-    5: "5n6M8", 6: "Ls0", 7: "Hx2C34", 8: "P7R9e8", 9: "NZ4l3", 
-    10: "L9kh6", 11: "6W5hg2", 12: null, 13: null, 14: "4i1O0p9", 
-    15: "G0N1o2", 16: "M9n3a2", 17: "I65fq6", 18: "K1l2J8", 19: "O4R3e2", 
-    0: "S0a1Dk7"
-  },
-  redirectDelay: 1000,
-  verificationDelay: 1500,
-  maxLoginAttempts: 5,
-  lockoutTime: 30000,
-  securityQuestions: [
-    "What was your first pet's name?",
-    "What city were you born in?",
-    "What is your mother's maiden name?"
-  ]
-};
+            document.body.classList.toggle('light-mode');
 
-// State management
-const state = {
-  loginAttempts: 0,
-  isLockedOut: false,
-  currentTheme: localStorage.getItem('theme') || 'dark',
-  deviceId: null,
-  chatHistory: [],
-  security: {
-    lastAttempt: null,
-    failedAttempts: 0
-  }
-};
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
 
-// Utility functions
-const utils = {
-  showElement: (el, show = true) => el && (el.style.display = show ? 'block' : 'none'),
-  addClass: (el, className) => el && el.classList.add(className),
-  removeClass: (el, className) => el && el.classList.remove(className),
-  encrypt: (text) => btoa(encodeURIComponent(text)), // Basic encryption for demo
-  decrypt: (text) => decodeURIComponent(atob(text)),
-  throttle: (func, limit) => {
-    let lastFunc;
-    let lastRan;
-    return function() {
-      const context = this;
-      const args = arguments;
-      if (!lastRan) {
-        func.apply(context, args);
-        lastRan = Date.now();
-      } else {
-        clearTimeout(lastFunc);
-        lastFunc = setTimeout(() => {
-          if ((Date.now() - lastRan) >= limit) {
-            func.apply(context, args);
-            lastRan = Date.now();
-          }
-        }, limit - (Date.now() - lastRan));
-      }
-    }
-  }
-};
+        });
 
-// Theme Management
-function initTheme() {
-  if (!elements.themeToggleBtn) return;
-  
-  document.documentElement.setAttribute('data-theme', state.currentTheme);
-  
-  elements.themeToggleBtn.addEventListener('click', () => {
-    state.currentTheme = state.currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', state.currentTheme);
-    localStorage.setItem('theme', state.currentTheme);
-    updateThemeButton();
-  });
-  
-  updateThemeButton();
-}
 
-function updateThemeButton() {
-  if (elements.themeToggleBtn) {
-    elements.themeToggleBtn.innerHTML = state.currentTheme === 'dark' ? 
-      '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-  }
-}
 
-// Device ID Management
-function initDeviceId() {
-  state.deviceId = localStorage.getItem('deviceId') || generateDeviceId();
-  localStorage.setItem('deviceId', state.deviceId);
-  return state.deviceId;
-}
+        // Set initial theme
 
-function generateDeviceId() {
-  return Math.floor(Math.random() * (config.deviceIdRange + 1)).toString();
-}
+        if (localStorage.getItem('theme') === 'light') {
 
-function setupDeviceIdModal() {
-  if (!elements.deviceIdBtn || !elements.deviceIdModal) return;
+            document.body.classList.add('light-mode');
 
-  elements.deviceIdBtn.addEventListener('click', () => {
-    if (state.isLockedOut) {
-      showResult(`Please wait ${Math.ceil((config.lockoutTime - (Date.now() - state.security.lastAttempt)) / 1000)} seconds`, 'error');
-      return;
-    }
-    elements.deviceIdDisplay.textContent = state.deviceId;
-    elements.deviceIdModal.classList.add('visible');
-  });
+        }
 
-  elements.copyDeviceIdBtn?.addEventListener('click', utils.throttle(copyDeviceIdToClipboard, 2000));
-  elements.closeModal?.addEventListener('click', closeDeviceIdModal);
 
-  window.addEventListener('click', (e) => {
-    if (e.target === elements.deviceIdModal) {
-      closeDeviceIdModal();
-    }
-  });
-}
 
-async function copyDeviceIdToClipboard() {
-  try {
-    await navigator.clipboard.writeText(state.deviceId);
-    showFeedback(elements.copyDeviceIdBtn, 'Copied!', 'success');
-  } catch (err) {
-    console.error('Copy failed:', err);
-    showFeedback(elements.copyDeviceIdBtn, 'Failed', 'error');
-  }
-}
+        // Generate and store a random Device ID (0-20)
 
-function closeDeviceIdModal() {
-  elements.deviceIdModal.classList.remove('visible');
-}
+        window.onload = function() {
 
-function showFeedback(element, message, type = '') {
-  if (!element) return;
-  
-  const originalText = element.textContent;
-  element.textContent = message;
-  utils.removeClass(element, 'success error');
-  if (type) utils.addClass(element, type);
-  
-  setTimeout(() => {
-    element.textContent = originalText;
-    utils.removeClass(element, 'success error');
-  }, 2000);
-}
+            let randomNumber = localStorage.getItem('randomNumber');
 
-// Authentication System
-function initKeyVerification() {
-  if (!elements.loginForm) return;
+            if (!randomNumber) {
 
-  elements.loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    handleLogin();
-  });
+                randomNumber = Math.floor(Math.random() * 21); // 0-20
 
-  // Rate limiting for form submission
-  elements.loginForm.addEventListener('submit', utils.throttle(handleLogin, 2000));
-}
+                localStorage.setItem('randomNumber', randomNumber);
 
-function handleLogin() {
-  if (state.isLockedOut) {
-    const remainingTime = Math.ceil((config.lockoutTime - (Date.now() - state.security.lastAttempt)) / 1000);
-    showResult(`Too many attempts. Please wait ${remainingTime} seconds.`, 'error');
-    return;
-  }
+            }
 
-  const userKey = elements.userKeyInput?.value.trim();
-  
-  if (!userKey) {
-    showResult('Please enter an access key', 'error');
-    return;
-  }
+        };
 
-  verifyKey(userKey);
-}
 
-function verifyKey(userKey) {
-  showLoading(true);
-  showResult('Verifying...', 'loading');
 
-  // Simulate server verification delay
-  setTimeout(() => {
-    showLoading(false);
-    
-    if (verifyAccessKey(state.deviceId, userKey)) {
-      handleSuccessfulVerification();
-    } else {
-      handleFailedVerification();
-    }
-  }, config.verificationDelay);
-}
+        // Device ID Modal
 
-function verifyAccessKey(deviceId, key) {
-  const correctKey = config.keyMapping[deviceId];
-  return correctKey && correctKey === key;
-}
+        const deviceIdBtn = document.getElementById('deviceIdBtn');
 
-function handleSuccessfulVerification() {
-  state.loginAttempts = 0;
-  state.security.failedAttempts = 0;
-  showResult('Access granted! Redirecting...', 'success');
-  utils.addClass(elements.result, 'pulse');
-  
-  setTimeout(() => {
-    window.location.href = 'dashboard.html';
-  }, config.redirectDelay);
-}
+        const deviceIdModal = document.getElementById('deviceIdModal');
 
-function handleFailedVerification() {
-  state.loginAttempts++;
-  state.security.failedAttempts++;
-  state.security.lastAttempt = Date.now();
-  
-  if (state.security.failedAttempts >= config.maxLoginAttempts) {
-    state.isLockedOut = true;
-    const lockoutDuration = config.lockoutTime / 1000;
-    showResult(`Too many attempts. Account locked for ${lockoutDuration} seconds.`, 'error');
-    
-    setTimeout(() => {
-      state.isLockedOut = false;
-      state.security.failedAttempts = 0;
-      showResult('Account unlocked. Please try again.', 'info');
-    }, config.lockoutTime);
-  } else {
-    const remainingAttempts = config.maxLoginAttempts - state.security.failedAttempts;
-    showResult(`Invalid key. ${remainingAttempts} attempt${remainingAttempts !== 1 ? 's' : ''} remaining.`, 'error');
-    utils.addClass(elements.userKeyInput, 'shake');
-    setTimeout(() => utils.removeClass(elements.userKeyInput, 'shake'), 500);
-  }
-}
+        const deviceIdDisplay = document.getElementById('deviceIdDisplay');
 
-// Chat System
-function initChat() {
-  if (!elements.chatToggle || !elements.chatWidget) return;
+        const copyDeviceIdBtn = document.getElementById('copyDeviceId');
 
-  elements.chatToggle.addEventListener('click', toggleChat);
-  elements.closeChat?.addEventListener('click', closeChat);
-  elements.sendMsg?.addEventListener('click', sendMessage);
-  elements.chatInput?.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
+        const closeModal = document.querySelector('.close-modal');
 
-  // Initial greeting
-  setTimeout(() => {
-    addChatMessage('Support', 'Hello! How can we help you today?');
-  }, 1500);
-}
 
-function toggleChat() {
-  elements.chatWidget.classList.toggle('active');
-  if (elements.chatWidget.classList.contains('active')) {
-    elements.chatInput.focus();
-  }
-}
 
-function closeChat() {
-  elements.chatWidget.classList.remove('active');
-}
+        deviceIdBtn.addEventListener('click', () => {
 
-function sendMessage() {
-  const message = elements.chatInput.value.trim();
-  if (!message) return;
+            const randomNumber = localStorage.getItem('randomNumber');
 
-  addChatMessage('You', message);
-  state.chatHistory.push({ sender: 'user', message, timestamp: new Date() });
-  elements.chatInput.value = '';
-  
-  // Simulate intelligent response
-  setTimeout(() => generateResponse(message), 1000 + Math.random() * 2000);
-}
+            deviceIdDisplay.textContent = randomNumber;
 
-function generateResponse(userMessage) {
-  const responses = {
-    greeting: ["Hello!", "Hi there!", "Welcome back!"],
-    help: ["How can I assist you?", "What do you need help with?", "I'm here to help."],
-    default: ["I understand.", "Thanks for sharing.", "Let me check on that."]
-  };
+            deviceIdModal.style.display = 'flex';
 
-  let response;
-  
-  if (/hello|hi|hey/i.test(userMessage)) {
-    response = responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
-  } else if (/help|support|problem/i.test(userMessage)) {
-    response = responses.help[Math.floor(Math.random() * responses.help.length)];
-  } else {
-    response = responses.default[Math.floor(Math.random() * responses.default.length)];
-  }
+        });
 
-  addChatMessage('Support', response);
-  state.chatHistory.push({ sender: 'support', message: response, timestamp: new Date() });
-}
 
-function addChatMessage(sender, message) {
-  if (!elements.chatMessages) return;
-  
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('msg', sender.toLowerCase());
-  messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
-  elements.chatMessages.appendChild(messageDiv);
-  elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-}
 
-// UI Helpers
-function showLoading(show) {
-  utils.showElement(elements.loading, show);
-}
+        copyDeviceIdBtn.addEventListener('click', () => {
 
-function showResult(message, type = '') {
-  if (!elements.result) return;
-  
-  elements.result.textContent = message;
-  elements.result.className = type;
-}
+            const randomNumber = localStorage.getItem('randomNumber');
 
-// Password Recovery
-function initPasswordRecovery() {
-  if (!elements.forgotPassword) return;
-  
-  elements.forgotPassword.addEventListener('click', (e) => {
-    e.preventDefault();
-    showSecurityQuestion();
-  });
-}
+            navigator.clipboard.writeText(randomNumber)
 
-function showSecurityQuestion() {
-  const randomQuestion = config.securityQuestions[
-    Math.floor(Math.random() * config.securityQuestions.length)
-  ];
-  
-  const answer = prompt(randomQuestion);
-  if (answer) {
-    showResult('If your answer matches our records, you will receive a reset link.', 'info');
-  }
-}
+                .then(() => {
 
-// Initialize all components
-function initApp() {
-  try {
-    initTheme();
-    initDeviceId();
-    setupDeviceIdModal();
-    initKeyVerification();
-    initChat();
-    initPasswordRecovery();
-    
-    // Set focus to input field if it exists
-    elements.userKeyInput?.focus();
-    
-    // Log initialization
-    console.log('AM VIP System initialized');
-  } catch (error) {
-    console.error('Initialization error:', error);
-    showResult('System error. Please refresh the page.', 'error');
-  }
-}
+                    copyDeviceIdBtn.textContent = 'Copied!';
 
-// Start the application
-document.addEventListener('DOMContentLoaded', initApp);
+                    setTimeout(() => {
+
+                        copyDeviceIdBtn.textContent = 'Copy to Clipboard';
+
+                    }, 2000);
+
+                })
+
+                .catch(err => {
+
+                    console.error('Failed to copy:', err);
+
+                    copyDeviceIdBtn.textContent = 'Error';
+
+                    setTimeout(() => {
+
+                        copyDeviceIdBtn.textContent = 'Copy to Clipboard';
+
+                    }, 2000);
+
+                });
+
+        });
+
+
+
+        closeModal.addEventListener('click', () => {
+
+            deviceIdModal.style.display = 'none';
+
+        });
+
+
+
+        window.addEventListener('click', (e) => {
+
+            if (e.target === deviceIdModal) {
+
+                deviceIdModal.style.display = 'none';
+
+            }
+
+        });
+
+
+
+        // Chat Widget Toggle
+
+        const chatToggle = document.getElementById('chatToggle');
+
+        const chatWidget = document.getElementById('chatWidget');
+
+        const closeChat = document.getElementById('closeChat');
+
+
+
+        chatToggle.addEventListener('click', () => {
+
+            chatWidget.classList.toggle('active');
+
+        });
+
+
+
+        closeChat.addEventListener('click', () => {
+
+            chatWidget.classList.remove('active');
+
+        });
+
+
+
+        // Simple Chat Functionality
+
+        const chatInput = document.getElementById('chatInput');
+
+        const chatMessages = document.getElementById('chatMessages');
+
+        const sendMsg = document.getElementById('sendMsg');
+
+
+
+        function addMessage(sender, message) {
+
+            const messageDiv = document.createElement('div');
+
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+
+            messageDiv.style.marginBottom = '10px';
+
+            chatMessages.appendChild(messageDiv);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        }
+
+
+
+        sendMsg.addEventListener('click', () => {
+
+            const message = chatInput.value.trim();
+
+            if (message) {
+
+                addMessage('You', message);
+
+                chatInput.value = '';
+
+                
+
+                // Simulate reply after 1 second
+
+                setTimeout(() => {
+
+                    addMessage('Support', 'Thanks for your message. Our team will get back to you soon.');
+
+                }, 1000);
+
+            }
+
+        });
+
+
+
+        chatInput.addEventListener('keypress', (e) => {
+
+            if (e.key === 'Enter') {
+
+                sendMsg.click();
+
+            }
+
+        });
+
+
+
+        // Verify the entered key
+
+        function verifyKey() {
+
+            const randomNumber = localStorage.getItem('randomNumber');
+
+            const userKey = document.getElementById('user-key').value.trim();
+
+            const correctKey = getKeyForNumber(randomNumber);
+
+            const loadingElement = document.getElementById('loading');
+
+            const messageElement = document.getElementById('message');
+
+
+
+            // Validate input
+
+            if (!userKey) {
+
+                messageElement.textContent = '❌ Please enter an access key';
+
+                messageElement.className = 'error';
+
+                return;
+
+            }
+
+
+
+            // Show loading animation
+
+            loadingElement.style.display = 'block';
+
+            messageElement.textContent = '';
+
+            messageElement.className = '';
+
+
+
+            setTimeout(() => {
+
+                loadingElement.style.display = 'none';
+
+
+
+                if (userKey === correctKey) {
+
+                    messageElement.textContent = '✅ Key Verified! Redirecting...';
+
+                    messageElement.className = 'success';
+
+                    setTimeout(() => {
+
+                        window.location.href = 'navig2.html';
+
+                    }, 1000);
+
+                } else {
+
+                    messageElement.textContent = '❌ Incorrect Key. Please try again.';
+
+                    messageElement.className = 'error';
+
+                }
+
+            }, 1500); // Simulate delay
+
+        }
+
+
+
+        // Hardcoded key mapping (0-20)
+
+        function getKeyForNumber(number) {
+
+            const keys = {
+
+                0: "AMVIP", 1: "T93r2", 2: "A3f9k0", 3: "U7y7a0", 4: "QU8i9", 
+
+                5: "5n6M8", 6: "Ls0", 7: "Hx2C34", 8: "P7R9e8", 9: "NZ4l3", 
+
+                10: "L9kh6", 11: "6W5hg2", 12: "", 13: "", 14: "4i1O0p9", 
+
+                15: "36hk2", 16: "M9n3a2", 17: "I65fq6", 18: "K1l2J8", 19: "O4R3e2", 
+
+                20: "S0a1Dk7"
+
+            };
+
+            return keys[number];
+
+        }
+
