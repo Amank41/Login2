@@ -266,7 +266,7 @@
 
                     setTimeout(() => {
 
-                        window.location.href = 'navig2.html';
+                        window.location.href = 'main-app.html';
 
                     }, 1000);
 
